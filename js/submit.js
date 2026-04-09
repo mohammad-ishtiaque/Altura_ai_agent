@@ -18,7 +18,6 @@ async function saveClientData() {
     calendarToken:   v('calendarBotToken'),
     meetingToken:    v('meetingBotToken'),
     gmailAddress:    v('gmailAddress'),
-    clientSecretJson: oauthFile,
   };
 
   await fetch(`${BACKEND_URL}/client/save`, {

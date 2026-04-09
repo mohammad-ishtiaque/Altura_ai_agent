@@ -28,10 +28,6 @@ function validateStep(step) {
       }
     }
 
-    if (!oauthFile) {
-      showToast('Please upload your client_secret.json file.');
-      return false;
-    }
     if (!googleConnected) {
       showToast('Please connect your Google account first.');
       return false;

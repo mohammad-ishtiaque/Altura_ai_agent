@@ -1,34 +1,16 @@
 /* ═══════════════════════════════════════════════
-   oauth.js — File upload & Google OAuth flow
+   oauth.js — Google OAuth flow
    ═══════════════════════════════════════════════ */
 
-function handleOAuthFile(input) {
-  const file = input.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = async (e) => {
-    try {
-      oauthFile = JSON.parse(e.target.result);
-
-      const area = document.getElementById('oauthUploadArea');
-      area.classList.add('has-file');
-      document.getElementById('oauthFileName').textContent = '✓ ' + file.name;
-
-      const btn = document.getElementById('googleConnectBtn');
-      btn.disabled = false;
-      btn.textContent = '🔗 Connect Google Account';
-    } catch {
-      showToast('Invalid JSON file. Please upload a valid client_secret.json');
-    }
-  };
-  reader.readAsText(file);
+function updateGoogleBtn() {
+  const gmail = v('gmailAddress');
+  const btn = document.getElementById('googleConnectBtn');
+  btn.disabled = !gmail;
 }
 
 async function connectGoogle() {
   const gmail = v('gmailAddress');
-  if (!gmail)    { showToast('Please enter your Gmail address first'); return; }
-  if (!oauthFile) { showToast('Please upload client_secret.json first'); return; }
+  if (!gmail) { showToast('Please enter your Gmail address first'); return; }
 
   const btn = document.getElementById('googleConnectBtn');
   btn.textContent = 'Saving data...';

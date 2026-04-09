@@ -109,25 +109,14 @@
 
     <div class="field">
       <label>Gmail / Google Workspace Address <span class="req">*</span></label>
-      <input type="email" id="gmailAddress" placeholder="yourname@gmail.com or you@company.com">
+      <input type="email" id="gmailAddress" placeholder="yourname@gmail.com or you@company.com" oninput="updateGoogleBtn()">
       <span class="hint">The Google account your bots will use for email, calendar and docs</span>
-    </div>
-
-    <div class="field">
-      <label>Google OAuth File — client_secret.json <span class="req">*</span></label>
-      <div id="oauthUploadArea" class="upload-area" onclick="document.getElementById('oauthFileInput').click()">
-        <div class="upload-icon">📎</div>
-        <div class="upload-label">Click to upload client_secret.json</div>
-        <div class="upload-hint">Google Cloud Console → Credentials → OAuth 2.0 Client ID → Download JSON</div>
-        <div id="oauthFileName" class="upload-name"></div>
-      </div>
-      <input type="file" id="oauthFileInput" accept=".json" style="display:none" onchange="handleOAuthFile(this)">
     </div>
 
     <div class="field">
       <label>Connect Google Account <span class="req">*</span></label>
       <button id="googleConnectBtn" onclick="connectGoogle()" disabled>
-        🔗 Upload client_secret.json first
+        🔗 Connect Google Account
       </button>
       <div id="googleStatus"></div>
     </div>
