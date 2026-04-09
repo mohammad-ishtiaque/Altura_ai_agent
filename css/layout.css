@@ -1,0 +1,175 @@
+/* ═══════════════════════════════════════════════
+   layout.css — Header, container, progress,
+                step dots, nav-buttons, grid
+   ═══════════════════════════════════════════════ */
+
+/* ── Container ────────────────────────────────── */
+.container {
+  max-width: 740px;
+  margin: 0 auto;
+}
+
+/* ── Header ───────────────────────────────────── */
+.header {
+  position: relative;
+  border-radius: var(--radius-xl);
+  padding: 3rem 2.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  overflow: hidden;
+  background: var(--accent-grad);
+  box-shadow: var(--shadow-accent);
+}
+
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 80% at 20% 0%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(ellipse 50% 50% at 80% 100%, rgba(0,0,0,0.2), transparent);
+  pointer-events: none;
+}
+
+/* Shimmer sweep */
+.header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  animation: headerShimmer 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes headerShimmer {
+  0%   { left: -100%; }
+  50%  { left: 150%; }
+  100% { left: 150%; }
+}
+
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: var(--radius-pill);
+  padding: 4px 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: rgba(255,255,255,0.9);
+}
+
+.header h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.header p {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.7;
+  position: relative;
+}
+
+/* ── Step Indicator Dots ──────────────────────── */
+.step-indicator {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  transition: all var(--duration-slow) var(--ease);
+}
+
+.step-dot.active {
+  width: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--accent-grad);
+  border-color: transparent;
+  box-shadow: 0 0 12px rgba(124, 111, 252, 0.5);
+}
+
+.step-dot.done {
+  background: var(--success-grad);
+  border-color: transparent;
+}
+
+/* ── Progress Bar ─────────────────────────────── */
+.progress-bar {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+}
+
+.progress-pct { color: var(--accent-1); font-weight: 600; }
+
+.progress-track {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-pill);
+  height: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--accent-grad);
+  transition: width var(--duration-slow) var(--ease);
+  width: 0%;
+  box-shadow: 0 0 8px rgba(124, 111, 252, 0.6);
+}
+
+/* ── Grid ─────────────────────────────────────── */
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 520px) {
+  .grid2 { grid-template-columns: 1fr; }
+  .header { padding: 2rem 1.5rem; }
+  .header h1 { font-size: 1.5rem; }
+}
+
+/* ── Nav Buttons ──────────────────────────────── */
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 1.75rem;
+}

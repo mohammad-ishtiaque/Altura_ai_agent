@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Configure your personal AI assistant bots — Calendar, Email, and Meeting Summary — in minutes with the Altura AI Setup Form.">
+  <title>AI Bot Setup — Altura Client Intake Form</title>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- ── Header ─────────────────────────────────── -->
+  <div class="header">
+    <div class="header-badge">⚡ Altura AI Agent</div>
+    <h1>🤖 AI Bot Setup Form</h1>
+    <p>Configure your personal AI assistants in minutes.<br>Calendar · Email · Meeting Summary bots.</p>
+  </div>
+
+  <!-- ── Step Indicator ─────────────────────────── -->
+  <div class="step-indicator" id="stepIndicator">
+    <div class="step-dot active" id="dot0"></div>
+    <div class="step-dot" id="dot1"></div>
+    <div class="step-dot" id="dot2"></div>
+  </div>
+
+  <!-- ── Progress Bar ───────────────────────────── -->
+  <div class="progress-bar">
+    <div class="progress-label">
+      <span id="stepLabel">Step 1 of 3 — Client Information</span>
+      <span id="stepPct" class="progress-pct">0%</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 1: Client Information
+       ════════════════════════════════════════════════ -->
+  <div class="card active" id="step1">
+    <div class="card-title">
+      <div class="icon icon-purple">👤</div>
+      Client Information
+    </div>
+
+    <div class="grid2">
+      <div class="field">
+        <label>Full Name <span class="req">*</span></label>
+        <input type="text" id="fullName" placeholder="Maria Gonzalez">
+      </div>
+      <div class="field">
+        <label>Business Name <span class="req">*</span></label>
+        <input type="text" id="businessName" placeholder="Gonzalez Consulting">
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="field">
+        <label>Email Address <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="maria@company.com">
+      </div>
+      <div class="field">
+        <label>WhatsApp / Phone</label>
+        <input type="text" id="phone" placeholder="+57 300 000 0000">
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="field">
+        <label>Preferred Language <span class="req">*</span></label>
+        <select id="language">
+          <option value="">Select language</option>
+          <option>English</option>
+          <option>Spanish</option>
+          <option>Portuguese</option>
+          <option>French</option>
+          <option>Arabic</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Bot Communication Tone <span class="req">*</span></label>
+        <select id="tone">
+          <option value="">Select tone</option>
+          <option>Professional</option>
+          <option>Friendly</option>
+          <option>Formal</option>
+          <option>Casual</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Telegram ID <span class="req">*</span></label>
+      <input type="text" id="telegramId" placeholder="e.g. 6660492587">
+      <span class="hint">Send /start to @userinfobot on Telegram to get your ID</span>
+    </div>
+
+    <div class="field">
+      <label>Anthropic API Key <span class="req">*</span></label>
+      <input type="text" id="anthropicKey" placeholder="sk-ant-api03-...">
+      <span class="hint">Get from console.anthropic.com → API Keys → Create Key</span>
+    </div>
+
+    <div class="field">
+      <label>Gmail / Google Workspace Address <span class="req">*</span></label>
+      <input type="email" id="gmailAddress" placeholder="yourname@gmail.com or you@company.com">
+      <span class="hint">The Google account your bots will use for email, calendar and docs</span>
+    </div>
+
+    <div class="field">
+      <label>Google OAuth File — client_secret.json <span class="req">*</span></label>
+      <div id="oauthUploadArea" class="upload-area" onclick="document.getElementById('oauthFileInput').click()">
+        <div class="upload-icon">📎</div>
+        <div class="upload-label">Click to upload client_secret.json</div>
+        <div class="upload-hint">Google Cloud Console → Credentials → OAuth 2.0 Client ID → Download JSON</div>
+        <div id="oauthFileName" class="upload-name"></div>
+      </div>
+      <input type="file" id="oauthFileInput" accept=".json" style="display:none" onchange="handleOAuthFile(this)">
+    </div>
+
+    <div class="field">
+      <label>Connect Google Account <span class="req">*</span></label>
+      <button id="googleConnectBtn" onclick="connectGoogle()" disabled>
+        🔗 Upload client_secret.json first
+      </button>
+      <div id="googleStatus"></div>
+    </div>
+
+    <div class="field">
+      <label>📧 Email Bot — Telegram Token <span class="req">*</span></label>
+      <input type="text" id="emailBotToken" placeholder="123456789:ABCdef...">
+      <span class="hint">@BotFather → /newbot → name "Email Assistant" → copy token</span>
+    </div>
+
+    <div class="field">
+      <label>📅 Calendar Bot — Telegram Token <span class="req">*</span></label>
+      <input type="text" id="calendarBotToken" placeholder="123456789:ABCdef...">
+      <span class="hint">@BotFather → /newbot → name "Calendar Assistant" → copy token</span>
+    </div>
+
+    <div class="field">
+      <label>📋 Meeting Bot — Telegram Token <span class="req">*</span></label>
+      <input type="text" id="meetingBotToken" placeholder="123456789:ABCdef...">
+      <span class="hint">@BotFather → /newbot → name "Meeting Summary" → copy token</span>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-next" onclick="goStep(2)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 2: Bot Selection & Configuration
+       ════════════════════════════════════════════════ -->
+  <div class="card" id="step2">
+    <div class="card-title">
+      <div class="icon icon-blue">🤖</div>
+      Select Your Bots
+    </div>
+
+    <div class="field">
+      <label>Which AI bots do you need? <span class="req">*</span></label>
+      <span class="hint" style="margin-top:0;margin-bottom:12px;">Select one or more. You can always add more later.</span>
+    </div>
+
+    <!-- Calendar Bot -->
+    <div class="bot-card" id="calCard">
+      <div class="bot-card-header" onclick="toggleBot('cal')">
+        <div class="bot-card-title">
+          <span>📅</span>
+          <div>
+            <div>Calendar Assistant</div>
+            <div class="bot-desc">Schedule meetings, check availability, cancel events</div>
+          </div>
+        </div>
+        <div class="toggle-icon" id="calToggle"></div>
+      </div>
+      <div class="bot-fields" id="calFields">
+        <div class="grid2">
+          <div class="field">
+            <label>Timezone <span class="req">*</span></label>
+            <select id="timezone">
+              <option value="">Select timezone</option>
+              <option>America/Bogota (Colombia)</option>
+              <option>America/New_York (USA East)</option>
+              <option>America/Chicago (USA Central)</option>
+              <option>America/Los_Angeles (USA West)</option>
+              <option>Europe/London (UK)</option>
+              <option>Europe/Madrid (Spain)</option>
+              <option>Asia/Dhaka (Bangladesh)</option>
+              <option>Asia/Dubai (UAE)</option>
+              <option>Asia/Karachi (Pakistan)</option>
+              <option>Asia/Kolkata (India)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Video Call Platform</label>
+            <select id="videoPlatform">
+              <option>Google Meet</option>
+              <option>Zoom</option>
+              <option>Microsoft Teams</option>
+              <option>Whereby</option>
+              <option>No video link needed</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Working Hours Start <span class="req">*</span></label>
+            <input type="time" id="workStart" value="09:00">
+          </div>
+          <div class="field">
+            <label>Working Hours End <span class="req">*</span></label>
+            <input type="time" id="workEnd" value="18:00">
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Default Meeting Duration</label>
+            <select id="meetDuration">
+              <option>15 minutes</option>
+              <option selected>30 minutes</option>
+              <option>45 minutes</option>
+              <option>60 minutes</option>
+              <option>90 minutes</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Buffer Between Meetings</label>
+            <select id="meetBuffer">
+              <option>No buffer</option>
+              <option>5 minutes</option>
+              <option selected>10 minutes</option>
+              <option>15 minutes</option>
+              <option>30 minutes</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Google Calendar Email <span class="req">*</span></label>
+            <input type="email" id="calEmail" placeholder="maria@gmail.com">
+          </div>
+          <div class="field">
+            <label>Meeting Reminder</label>
+            <select id="reminder">
+              <option>10 minutes before</option>
+              <option>15 minutes before</option>
+              <option selected>30 minutes before</option>
+              <option>1 hour before</option>
+              <option>No reminder</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Special Scheduling Instructions</label>
+          <textarea id="calInstructions" placeholder="e.g. Never schedule before 10am. Always add a Google Meet link. No back-to-back meetings."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Email Bot -->
+    <div class="bot-card" id="emailCard">
+      <div class="bot-card-header" onclick="toggleBot('email')">
+        <div class="bot-card-title">
+          <span>✉️</span>
+          <div>
+            <div>Email Assistant</div>
+            <div class="bot-desc">Draft emails, summarize inbox, send replies</div>
+          </div>
+        </div>
+        <div class="toggle-icon" id="emailToggle"></div>
+      </div>
+      <div class="bot-fields" id="emailFields">
+        <div class="grid2">
+          <div class="field">
+            <label>Business Email <span class="req">*</span></label>
+            <input type="email" id="businessEmail" placeholder="maria@company.com">
+          </div>
+          <div class="field">
+            <label>Email Send Mode</label>
+            <select id="sendMode">
+              <option>Draft only — I review before sending</option>
+              <option>Auto-send directly</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Email Signature <span class="req">*</span></label>
+          <textarea id="emailSignature" placeholder="Best regards,&#10;Maria Gonzalez&#10;CEO — Gonzalez Consulting&#10;+57 300 000 0000"></textarea>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>VIP Senders (flag as urgent)</label>
+            <input type="text" id="vipSenders" placeholder="boss@client.com, partner@company.com">
+            <span class="hint">Comma separated email addresses</span>
+          </div>
+          <div class="field">
+            <label>Inbox Summary Scope</label>
+            <select id="inboxScope">
+              <option>Last 5 emails</option>
+              <option selected>Last 10 emails</option>
+              <option>Last 20 emails</option>
+              <option>Last 50 emails</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Reply Language</label>
+          <select id="replyLang">
+            <option>English</option>
+            <option>Spanish</option>
+            <option>Portuguese</option>
+            <option>Same as received email</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Special Email Instructions</label>
+          <textarea id="emailInstructions" placeholder="e.g. Never reply to newsletters. Always CC my assistant on client emails."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Meeting Summary Bot -->
+    <div class="bot-card" id="meetCard">
+      <div class="bot-card-header" onclick="toggleBot('meet')">
+        <div class="bot-card-title">
+          <span>📋</span>
+          <div>
+            <div>Meeting Summary Assistant</div>
+            <div class="bot-desc">Paste transcript → get structured summary instantly</div>
+          </div>
+        </div>
+        <div class="toggle-icon" id="meetToggle"></div>
+      </div>
+      <div class="bot-fields" id="meetFields">
+        <div class="grid2">
+          <div class="field">
+            <label>Summary Format</label>
+            <select id="summaryFormat">
+              <option selected>Bullet points</option>
+              <option>Paragraphs</option>
+              <option>Mixed</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Summary Length</label>
+            <select id="summaryLength">
+              <option>Short (under 150 words)</option>
+              <option selected>Medium (under 300 words)</option>
+              <option>Long (detailed)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Required Sections <span class="req">*</span></label>
+          <div class="checkbox-group" id="sectionsGroup">
+            <label class="check-pill checked" onclick="togglePill(this)"><input type="checkbox" checked value="Key Decisions"><div class="dot"></div>Key Decisions</label>
+            <label class="check-pill checked" onclick="togglePill(this)"><input type="checkbox" checked value="Action Items"><div class="dot"></div>Action Items</label>
+            <label class="check-pill checked" onclick="togglePill(this)"><input type="checkbox" checked value="Next Steps"><div class="dot"></div>Next Steps</label>
+            <label class="check-pill checked" onclick="togglePill(this)"><input type="checkbox" checked value="Open Questions"><div class="dot"></div>Open Questions</label>
+            <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Attendees List"><div class="dot"></div>Attendees List</label>
+            <label class="check-pill" onclick="togglePill(this)"><input type="checkbox" value="Key Numbers"><div class="dot"></div>Key Numbers</label>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label>Transcript Language</label>
+            <select id="transcriptLang">
+              <option>English</option>
+              <option>Spanish</option>
+              <option>Portuguese</option>
+              <option>Mixed languages</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Output Language</label>
+            <select id="outputLang">
+              <option>English</option>
+              <option>Spanish</option>
+              <option>Portuguese</option>
+              <option>Same as transcript</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Special Summary Instructions</label>
+          <textarea id="summaryInstructions" placeholder="e.g. Always identify action item owners. Include timestamps if available. Keep under 300 words."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="goStep(1)">← Back</button>
+      <button class="btn btn-next" onclick="goStep(3)">Continue →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 3: Review & Submit
+       ════════════════════════════════════════════════ -->
+  <div class="card" id="step3">
+    <div class="card-title">
+      <div class="icon icon-green">✅</div>
+      Review &amp; Submit
+    </div>
+
+    <div id="reviewContent" class="review-box"></div>
+
+    <div class="field">
+      <label>How did you hear about us?</label>
+      <select id="referral">
+        <option value="">Select option</option>
+        <option>WhatsApp</option>
+        <option>Telegram</option>
+        <option>LinkedIn</option>
+        <option>Referral from a friend</option>
+        <option>Google Search</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Any additional notes or requirements?</label>
+      <textarea id="notes" placeholder="Anything else we should know about your setup..."></textarea>
+    </div>
+
+    <div class="error-msg" id="errorMsg">Something went wrong. Please try again or contact us directly.</div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-back" onclick="goStep(2)">← Back</button>
+      <button class="btn btn-submit" id="submitBtn" onclick="submitForm()">🚀 Submit Setup Request</button>
+    </div>
+  </div>
+
+  <!-- ── Success State ───────────────────────────── -->
+  <div class="success-card" id="successCard">
+    <div class="success-icon">✅</div>
+    <h2>Setup Request Received!</h2>
+    <p>
+      Thank you! We have received your bot configuration.<br><br>
+      Our team will set up your AI assistants within <strong>24 hours</strong>.<br>
+      We will contact you via <strong id="successEmail"></strong> with your bot links.<br><br>
+      <span style="color:var(--text-muted);font-size:13px">Check your email for a confirmation message.</span>
+    </p>
+  </div>
+
+</div><!-- /.container -->
+
+<!-- ── JavaScript Modules (order matters) ─────── -->
+<script src="js/config.js"></script>
+<script src="js/state.js"></script>
+<script src="js/review.js"></script>
+<script src="js/validation.js"></script>
+<script src="js/oauth.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/submit.js"></script>
+
+</body>
+</html>

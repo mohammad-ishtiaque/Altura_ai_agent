@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connecting Google — Altura AI</title>
+  <link rel="stylesheet" href="css/base.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      text-align: center;
+      padding: 2rem;
+      gap: 0;
+    }
+
+    .cb-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2.5rem;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 52px;
+      height: 52px;
+      border: 3px solid var(--bg-elevated);
+      border-top-color: var(--accent-1);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      margin: 0 auto 1.75rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Brand badge */
+    .brand {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    #status {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    #status.success { color: var(--success-1); }
+    #status.error   { color: var(--danger); }
+  </style>
+</head>
+<body>
+  <div class="cb-card">
+    <div class="brand">⚡ Altura AI</div>
+    <div class="spinner" id="spinner"></div>
+    <h2 id="title">Connecting your Google account...</h2>
+    <p id="status">Please wait, do not close this tab.</p>
+  </div>
+
+  <script>
+    const BACKEND_URL = 'http://76.13.99.68:3001';
+
+    async function handleCallback() {
+      const params = new URLSearchParams(window.location.search);
+      const code  = params.get('code');
+      const state = params.get('state');
+
+      if (!code || !state) {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('title').textContent  = 'Connection Failed';
+        document.getElementById('status').textContent = 'Missing authorization code. Please try again.';
+        document.getElementById('status').classList.add('error');
+        return;
+      }
+
+      try {
+        document.getElementById('status').textContent = 'Exchanging authorization code...';
+
+        const res = await fetch(`${BACKEND_URL}/oauth/callback-web`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code, clientId: state }),
+        });
+
+        const data = await res.json();
+
+        if (data.ok) {
+          document.getElementById('spinner').style.display = 'none';
+          document.getElementById('title').textContent  = '✅ Google Connected!';
+          document.getElementById('status').textContent = 'Your Google account is connected. This tab will close automatically.';
+          document.getElementById('status').classList.add('success');
+
+          if (window.opener) {
+            window.opener.postMessage({ type: 'GOOGLE_AUTH_SUCCESS', clientId: state }, '*');
+          }
+          setTimeout(() => window.close(), 2000);
+        } else {
+          throw new Error(data.error || 'Connection failed');
+        }
+
+      } catch (err) {
+        document.getElementById('spinner').style.display = 'none';
+        document.getElementById('title').textContent  = 'Connection Failed';
+        document.getElementById('status').textContent = 'Error: ' + err.message;
+        document.getElementById('status').classList.add('error');
+      }
+    }
+
+    handleCallback();
+  </script>
+</body>
+</html>
