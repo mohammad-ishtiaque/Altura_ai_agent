@@ -75,9 +75,8 @@
     <p id="status">Please wait, do not close this tab.</p>
   </div>
 
+  <script src="js/config.js"></script>
   <script>
-    const BACKEND_URL = 'http://76.13.99.68:3001';
-
     async function handleCallback() {
       const params = new URLSearchParams(window.location.search);
       const code  = params.get('code');
