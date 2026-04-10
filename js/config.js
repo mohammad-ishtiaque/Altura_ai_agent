@@ -2,4 +2,4 @@
    config.js — Global constants
    ═══════════════════════════════════════════════ */
 
-const BACKEND_URL = 'https://nut-theories-assist-firms.trycloudflare.com';
+const BACKEND_URL = 'https://conscious-threshold-pop-viewed.trycloudflare.com';
