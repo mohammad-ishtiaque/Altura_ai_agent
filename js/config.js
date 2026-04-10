@@ -2,4 +2,4 @@
    config.js — Global constants
    ═══════════════════════════════════════════════ */
 
-const BACKEND_URL = 'http://76.13.99.68:3001';
+const BACKEND_URL = 'https://nut-theories-assist-firms.trycloudflare.com';
